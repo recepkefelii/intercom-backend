@@ -22,4 +22,20 @@ import {
   
     @Column()
     password: string;
+
+    @Column({ unique : true })
+    username: string;
+
+    @Column()
+    about: string;
+
+    @Column()
+    firstName: string;
+
+    @Column()
+    lastName: string;
+
+    @Column()
+    image: string;
+
   }
