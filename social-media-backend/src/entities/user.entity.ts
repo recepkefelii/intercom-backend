@@ -36,6 +36,6 @@ import {
     @Column()
     lastName: string;
 
-    @Column()
+    @Column({ nullable: true })
     ProfilPhotoPath : string;
   }

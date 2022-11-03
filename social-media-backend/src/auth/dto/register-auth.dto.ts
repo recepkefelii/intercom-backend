@@ -22,4 +22,9 @@ export class RegisterAuthDto {
     @IsNotEmpty()
     @IsString()
     firstName: string;
+
+    // Last name validation
+    @IsNotEmpty()
+    @IsString()
+    lastName: string;
 }
