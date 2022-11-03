@@ -5,7 +5,7 @@ import { User } from 'src/entities';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { hash, verify } from 'argon2';
-import { IRegisterPaylaod } from './interface/index';
+import { ILoginPayload, IRegisterPaylaod } from './interface/index';
 import { sign } from 'jsonwebtoken';
 
 @Injectable()
@@ -17,7 +17,27 @@ export class AuthService {
     ) {}
 
     async login(loginDto: LoginAuthDto) {
-        return 'login';
+        const user = await this.userRepository.findOne({
+            where: { email: loginDto.email },
+        });
+        console.log(user);
+
+        if (!user) {
+            throw new ForbiddenException('Invalid credentials');
+        }
+
+        const valid = await verify(user.password, loginDto.password);
+
+        if (!valid) {
+            throw new Error('password is not valid');
+        }
+
+        const payload: ILoginPayload = {
+            email: user.email,
+            password: user.password,
+        };
+        const accessToken = this.loginPayload(payload);
+        return { accessToken };
     }
 
     async register(registerDto: RegisterAuthDto) {
@@ -52,7 +72,11 @@ export class AuthService {
     }
 
     registerPayload(payload: IRegisterPaylaod) {
-        // create a refresh token
+        // create a access token
+        return sign(payload, this.configService.get('SECRET_KEY'));
+    }
+
+    loginPayload(payload: ILoginPayload) {
         return sign(payload, this.configService.get('SECRET_KEY'));
     }
 }
