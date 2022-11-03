@@ -6,6 +6,7 @@ import {
     Column,
   } from 'typeorm';
   
+  // User entity
   @Entity()
   export class User {
     @PrimaryGeneratedColumn()
@@ -26,7 +27,7 @@ import {
     @Column({ unique : true })
     username: string;
 
-    @Column()
+    @Column({ nullable: true })
     about: string;
 
     @Column()
@@ -36,6 +37,5 @@ import {
     lastName: string;
 
     @Column()
-    image: string;
-
+    ProfilPhotoPath : string;
   }
