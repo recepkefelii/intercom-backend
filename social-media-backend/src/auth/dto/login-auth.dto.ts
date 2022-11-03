@@ -1,15 +1,6 @@
-// create a auth dto
-// Path: src\auth\dto\auth.dto.ts
-
 import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
-export class AuthDto {
-
-    // Username validation
-    @IsNotEmpty()
-    @IsString()
-    username: string;
-
+export class LoginAuthDto {
     // Password validation
     @IsNotEmpty()
     @IsString()
@@ -21,12 +12,4 @@ export class AuthDto {
     @IsString()
     @IsEmail()
     email: string;
-
-    // First name validation
-    @IsNotEmpty()
-    @IsString()
-    firstName: string;
-    
-
-
 }
