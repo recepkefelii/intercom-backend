@@ -13,6 +13,6 @@ import { typeOrmConfig } from './config/typeorm.config';
   ],
   
   controllers: [],
-  providers: [ ConfigService],
+  providers: [ConfigService],
 })
 export class AppModule {}
