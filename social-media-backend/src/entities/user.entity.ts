@@ -4,8 +4,13 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     Column,
+    ManyToOne,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
   } from 'typeorm';
-  
+
+import { FallowEntity } from './follow.entity';
   // User entity
   @Entity()
   export class User {
@@ -38,4 +43,17 @@ import {
 
     @Column({ nullable: true })
     ProfilPhotoPath : string;
+
+    @OneToMany(
+      () => FallowEntity,
+      (friendRequestEntity) => friendRequestEntity.creator,
+    )
+    sentFriendRequests: FallowEntity[];
+  
+    @OneToMany(
+      () => FallowEntity,
+      (friendRequestEntity) => friendRequestEntity.receiver,
+    )
+    receivedFriendRequests: FallowEntity[];
+
   }
