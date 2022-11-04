@@ -20,7 +20,6 @@ export class AuthService {
         const user = await this.userRepository.findOne({
             where: { email: loginDto.email },
         });
-        console.log(user);
 
         if (!user) {
             throw new ForbiddenException('Invalid credentials');
@@ -36,7 +35,7 @@ export class AuthService {
             email: user.email,
             password: user.password,
         };
-        const accessToken = this.loginPayload(payload);
+        const accessToken = this.payload<ILoginPayload>(payload);
         return { accessToken };
     }
 
@@ -60,7 +59,7 @@ export class AuthService {
             };
 
             // Create a token
-            const accessToken = this.registerPayload(payload);
+            const accessToken = this.payload<IRegisterPaylaod>(payload);
             // Return the token
             return { accessToken };
         } catch (error) {
@@ -71,12 +70,8 @@ export class AuthService {
         }
     }
 
-    registerPayload(payload: IRegisterPaylaod) {
-        // create a access token
-        return sign(payload, this.configService.get('SECRET_KEY'));
-    }
-
-    loginPayload(payload: ILoginPayload) {
+    // Generic payload function
+    payload<T extends object>(payload: T) {
         return sign(payload, this.configService.get('SECRET_KEY'));
     }
 }

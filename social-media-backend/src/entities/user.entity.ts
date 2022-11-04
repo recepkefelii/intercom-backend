@@ -5,6 +5,8 @@ import {
     UpdateDateColumn,
     Column,
   } from 'typeorm';
+
+import { Follow } from './follow.entity';
   
   // User entity
   @Entity()
@@ -38,4 +40,10 @@ import {
 
     @Column({ nullable: true })
     ProfilPhotoPath : string;
+
+    
+    following: Follow[];
+    followers: Follow[];
+    
+
   }

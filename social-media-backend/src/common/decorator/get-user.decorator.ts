@@ -6,6 +6,7 @@ export const GetUser = createParamDecorator(
     if (typeof data === 'string') {
       return request.user[data];
     }
+    delete request.user.password;
     return request.user;
   },
 );
