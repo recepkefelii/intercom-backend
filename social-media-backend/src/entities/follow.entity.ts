@@ -1,27 +1,22 @@
-// create a follow entity
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { FollowStatus } from 'src/follow/type/index';
+
 import { User } from './user.entity';
 
-@Entity()
-export class Follow {
-    @PrimaryGeneratedColumn()
-    id: number;
+@Entity('request')
+export class FallowEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+  @ManyToOne(() => User, (userEntity) => userEntity.sentFriendRequests)
+  creator: User;
 
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
+  @ManyToOne(
+    () => User,
+    (userEntity) => userEntity.receivedFriendRequests,
+  )
+  receiver: User;
 
-    @ManyToOne((type) => User, (user) => user.followers)
-    follower: User;
-
-    @ManyToOne((type) => User, (user) => user.following)
-    following: User;
+  @Column()
+  status: FollowStatus;
 }
