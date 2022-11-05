@@ -12,4 +12,5 @@ export class UserFolllowDto {
   username?: string;
   about?: string;
   profilPhotoPath?: string;
+  sentFriendRequests?: any[];
 }

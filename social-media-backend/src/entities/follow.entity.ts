@@ -1,21 +1,21 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FollowStatus } from 'src/follow/type/index';
 
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('request')
 export class FallowEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (userEntity) => userEntity.sentFriendRequests)
-  creator: User;
+  @ManyToOne(() => UserEntity, (userEntity) => userEntity.sentFriendRequests)
+  creator: UserEntity;
 
   @ManyToOne(
-    () => User,
+    () => UserEntity,
     (userEntity) => userEntity.receivedFriendRequests,
   )
-  receiver: User;
+  receiver: UserEntity;
 
   @Column()
   status: FollowStatus;

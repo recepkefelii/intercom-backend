@@ -1,10 +1,9 @@
-import { FollowStatus } from '../type/index';
-import { UserFolllowDto } from '../dto/index';
+import { FollowStatus } from '../type/index'
+import { UserFolllowDto } from '../dto/index'
 
-export interface FriendRequest {
-    id?: number;
-    creator?: UserFolllowDto;
-    receiver?: UserFolllowDto;
-    status?: FollowStatus;
-  }
-  
+export interface FollowRequest {
+    id?: number
+    creator?: UserFolllowDto
+    receiver?: UserFolllowDto
+    status?: FollowStatus
+}

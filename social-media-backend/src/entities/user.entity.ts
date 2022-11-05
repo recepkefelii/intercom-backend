@@ -13,7 +13,7 @@ import {
 import { FallowEntity } from './follow.entity';
   // User entity
   @Entity()
-  export class User {
+  export class UserEntity {
     @PrimaryGeneratedColumn()
     id: number;
   
