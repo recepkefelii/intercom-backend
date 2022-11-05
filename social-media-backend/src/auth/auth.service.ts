@@ -1,8 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { LoginAuthDto, RegisterAuthDto } from './dto/index';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/entities';
-import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { hash, verify } from 'argon2';
 import { ILoginPayload, IRegisterPaylaod } from './interface/index';
@@ -10,11 +7,6 @@ import { sign } from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>,
-        private readonly configService: ConfigService,
-    ) {}
 
     async login(loginDto: LoginAuthDto) {
         const user = await this.userRepository.findOne({
