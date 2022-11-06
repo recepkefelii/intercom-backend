@@ -1,23 +1,20 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { LoginAuthDto, RegisterAuthDto } from './dto/index';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities';
-import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { hash, verify } from 'argon2';
 import { ILoginPayload, IRegisterPaylaod } from './interface/index';
 import { sign } from 'jsonwebtoken';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
-        private readonly configService: ConfigService,
-    ) {}
 
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly userRepository: PrismaService,
+    ) {}
     async login(loginDto: LoginAuthDto) {
-        const user = await this.userRepository.findOne({
+        const user = await this.userRepository.user.findUnique({
             where: { email: loginDto.email },
         });
 
@@ -45,7 +42,9 @@ export class AuthService {
 
         try {
             // Create a new user
-            const user = await this.userRepository.save(registerDto);
+            const user = await this.userRepository.user.create({
+                data: registerDto,
+            });
 
             // Payload to be sent to the client
             const payload: IRegisterPaylaod = {
