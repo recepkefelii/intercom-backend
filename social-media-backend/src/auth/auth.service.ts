@@ -4,10 +4,15 @@ import { ConfigService } from '@nestjs/config';
 import { hash, verify } from 'argon2';
 import { ILoginPayload, IRegisterPaylaod } from './interface/index';
 import { sign } from 'jsonwebtoken';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
 
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly userRepository: PrismaService,
+    ) {}
     async login(loginDto: LoginAuthDto) {
         const user = await this.userRepository.findOne({
             where: { email: loginDto.email },

@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
+// create a new social media User model
 model User {
   id         Int       @id @default(autoincrement())
   name       String?
