@@ -19,8 +19,13 @@ model User {
   updatedAt  DateTime  @updatedAt
   followers  Follows[] @relation("follower")
   following  Follows[] @relation("following")
+  username   String    @unique
   posts      Post[]
-  hashedPassword String
+  password String
+  firstName String?
+  lastName String?
+  about String?
+  ProfilPhotoPath String?
 }
 
 model Follows {

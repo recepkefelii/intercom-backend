@@ -14,7 +14,7 @@ export class AuthService {
         private readonly userRepository: PrismaService,
     ) {}
     async login(loginDto: LoginAuthDto) {
-        const user = await this.userRepository.findOne({
+        const user = await this.userRepository.user.findUnique({
             where: { email: loginDto.email },
         });
 
@@ -42,7 +42,9 @@ export class AuthService {
 
         try {
             // Create a new user
-            const user = await this.userRepository.save(registerDto);
+            const user = await this.userRepository.user.create({
+                data: registerDto,
+            });
 
             // Payload to be sent to the client
             const payload: IRegisterPaylaod = {
