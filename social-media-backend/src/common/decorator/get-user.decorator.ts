@@ -7,6 +7,7 @@ export const GetUser = createParamDecorator(
       return request.user[data];
     }
     delete request.user.password;
+    delete request.user.iat;
     return request.user;
   },
 );

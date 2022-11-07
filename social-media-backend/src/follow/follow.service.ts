@@ -1,14 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { from, map, Observable, of, switchMap } from 'rxjs';
-import { UserFolllowDto } from './dto';
-import { FollowRequest } from './interface/follow.interface';
-
+import { PrismaService } from 'src/prisma/prisma.service';
+import { IUserInfo } from './interface/index';
 
 @Injectable()
 export class FollowService {
+    
+    constructor(private readonly prismaService: PrismaService) {}
 
-    
-    
-    
+    follow(user:IUserInfo):any {
+        
+    }
 
 }

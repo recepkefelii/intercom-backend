@@ -2,13 +2,17 @@ import { Controller, Param, Post, UseGuards, Request, Get, Body } from '@nestjs/
 import { FollowService } from './follow.service';
 import { AuthGuard, GetUser } from 'src/common/index';
 import { from, Observable, of } from 'rxjs';
-import { FollowRequest } from './interface/follow.interface';
-import { UserFolllowDto } from './dto';
+import { IUserInfo} from './interface/index';
 
-@Controller('deneme')
+@UseGuards(AuthGuard)
+@Controller('')
 export class FollowController {
     constructor(private readonly followService: FollowService) {}
 
-       
 
+    @Get('follow/:id') // create a post request parameter
+    @UseGuards(AuthGuard)
+    follow(@Param('id') id: number, @GetUser() user:IUserInfo) {// user information from the token
+        return from(this.followService.follow(user));
+    }
 }
