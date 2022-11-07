@@ -12,7 +12,13 @@ export class FollowController {
 
     @Get('follow/:id') // create a post request parameter
     @UseGuards(AuthGuard)
-    follow(@Param('id') id: number, @GetUser() user:IUserInfo) {// user information from the token
-        return from(this.followService.follow(user));
+    follow(@Param('id') id: number, @GetUser() user:IUserInfo) {
+        return from(this.followService.follow(user,id));
+    }
+
+    @Post('checkfollow')
+    @UseGuards(AuthGuard)
+    checkFollow(@Body() @GetUser() user:IUserInfo) {
+        return this.followService.checkFollow(user);
     }
 }
