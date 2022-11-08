@@ -12,4 +12,9 @@ export class LoginAuthDto {
     @IsString()
     @IsEmail()
     email: string;
+
+    // Username validation
+    @IsNotEmpty()
+    @IsString()
+    username: string;
 }

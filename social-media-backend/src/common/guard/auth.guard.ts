@@ -33,4 +33,5 @@ import {
     verifyToken(token: string) {
       return verify(token, this.config.get('SECRET_KEY'));
     }
+    
   }

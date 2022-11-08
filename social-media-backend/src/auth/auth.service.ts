@@ -31,11 +31,11 @@ export class AuthService {
         const payload: ILoginPayload = {
             email: user.email,
             password: user.password,
+            username: user.username,
         };
         const accessToken = this.payload<ILoginPayload>(payload);
         return { accessToken };
     }
-
     async register(registerDto: RegisterAuthDto) {
         // Hasef the password
         registerDto.password = await hash(registerDto.password);
@@ -51,10 +51,6 @@ export class AuthService {
                 id: user.id,
                 email: user.email,
                 username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                about: user.about,
-                ProfilPhotoPath: user.ProfilPhotoPath,
             };
 
             // Create a token

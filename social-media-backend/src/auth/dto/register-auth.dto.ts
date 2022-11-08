@@ -19,12 +19,13 @@ export class RegisterAuthDto {
     email: string;
 
     // First name validation
-    @IsNotEmpty()
     @IsString()
-    firstName: string;
+    firstName?: string;
 
     // Last name validation
-    @IsNotEmpty()
+
     @IsString()
-    lastName: string;
+    lastName?: string;
+
+    // About validation
 }
