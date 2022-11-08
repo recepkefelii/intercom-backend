@@ -36,7 +36,6 @@ export class AuthService {
         const accessToken = this.payload<ILoginPayload>(payload);
         return { accessToken };
     }
-
     async register(registerDto: RegisterAuthDto) {
         // Hasef the password
         registerDto.password = await hash(registerDto.password);

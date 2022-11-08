@@ -16,9 +16,9 @@ export class FollowController {
         return from(this.followService.follow(user,id));
     }
 
-    @Post('checkfollow')
+    @Post('followers')
     @UseGuards(AuthGuard)
-    checkFollow(@Body() @GetUser() user:IUserInfo) {
-        return this.followService.checkFollow(user);
+    userFollowers(@Body() @GetUser() user:IUserInfo) {
+        return this.followService.followers(user);
     }
 }

@@ -5,49 +5,42 @@ import { IUserInfo } from './interface/index';
 
 @Injectable()
 export class FollowService {
-    
     constructor(private readonly prismaService: PrismaService) {}
 
-    async follow(user:IUserInfo, id:number): Promise<any> {
+    async follow(user: IUserInfo, id: number): Promise<any> {
+        const follow = await this.prismaService.follows.create({
+            data: {
+                followerId: user.id,
+                followingId: id,
+            },
+        });
+        return follow;
+    }
 
-        // get the user following the other user
-        const userFollowing = await this.prismaService.user.findFirst({
-            where: { id: user.id },
-            include: {
-                following: {
+    followers(user: IUserInfo) {
+        const userFollowInfo = this.prismaService.user.findFirstOrThrow({
+            where: {
+                id: user.id,
+            },
+            select: {
+                followers: {
                     select: {
-                        followerId: true,
+                        following: {
+                            select: {
+                                name: true,
+                                id: true,
+                                username: true,
+                                ProfilPhotoPath: true,
+                                about: true,
+                                firstName: true,
+                                lastName: true,
+                            },
+                        },
                     },
                 },
             },
         });
 
-        
-
-        const follow = await this.prismaService.follows.create({
-            data: {
-                followerId: user.id,
-                followingId: id,
-                },
-                });
-        return follow;
+        return userFollowInfo;
     }
-
-    checkFollow(user:IUserInfo): Observable<any> {
-        return from(this.prismaService.user.findFirst({
-            where: { id: user.id },
-            include: {
-                followers: {
-                    select: {
-                        followerId: true,
-                    },
-                },
-            },
-        })).pipe(
-            map((user) => {
-                return user.followers.map((follow) => follow.followerId);
-            }),
-        );
-    }
-
 }
