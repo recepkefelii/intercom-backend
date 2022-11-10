@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-  BrowserRouter,
-  Routes,
-}from "react-router-dom";
+
 import Home from './page/Home';
 import LoginPage from './page/LoginPage';
 import RegisterPage from './page/Register-Page';
-
+import { Route, Router, BrowserRouter, Routes } from "react-router-dom";
 
 function App() {
   return (
@@ -19,11 +12,8 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
-
       </Routes>
     </BrowserRouter>
-    
-    
   );
 }
 
