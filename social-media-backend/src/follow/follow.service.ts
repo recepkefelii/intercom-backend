@@ -6,16 +6,28 @@ import { IUserInfo } from './interface/index';
 @Injectable()
 export class FollowService {
     constructor(private readonly prismaService: PrismaService) {}
-
-    async follow(user: IUserInfo, id: number): Promise<any> {
-        const follow = await this.prismaService.follows.create({
-            data: {
-                followerId: user.id,
-                followingId: id,
-            },
+    // create a follow request to follow a user 
+    followUser(user: IUserInfo, id: number) {
+        const userF = this.prismaService.follows.createMany({
+            data: [
+                {
+                    followerId: id,
+                    followingId: user.id,
+                },
+            ],
         });
-        return follow;
+        return from(userF).pipe(
+            switchMap((data) => {
+                return of({
+                    message: 'follow request sent',
+                });
+            }
+            ),
+        );
     }
+    
+    
+
 
     followers(user: IUserInfo) {
         const userFollowInfo = this.prismaService.user.findFirstOrThrow({

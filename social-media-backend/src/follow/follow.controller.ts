@@ -12,8 +12,8 @@ export class FollowController {
 
     @Get('follow/:id') // create a post request parameter
     @UseGuards(AuthGuard)
-    follow(@Param('id') id: number, @GetUser() user:IUserInfo) {
-        return from(this.followService.follow(user,id));
+    followRequest(@Param('id') id: number, @GetUser() user:IUserInfo) {
+        return this.followService.followUser(user,id);
     }
 
     @Post('followers')
