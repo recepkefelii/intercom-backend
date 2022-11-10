@@ -55,4 +55,31 @@ export class FollowService {
 
         return userFollowInfo;
     }
+
+    following(user: IUserInfo) {
+        const userFollowingInfo = this.prismaService.user.findFirstOrThrow({
+            where: {
+                id: user.id,
+            },
+            select: {
+                following: {
+                    select: {
+                        follower: {
+                            select: {
+                                name: true,
+                                id: true,
+                                username: true,
+                                ProfilPhotoPath: true,
+                                about: true,
+                                firstName: true,
+                                lastName: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        return userFollowingInfo;
+    }
 }
