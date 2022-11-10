@@ -1,13 +1,9 @@
 import React from 'react'
-
 import Navbar from '../components/navbar'
 
-function Home() {
+export default function LoginPage() {
   return (
-    <div>
-        <Navbar/>
+    <div><Navbar/>
     </div>
   )
 }
-
-export default Home
