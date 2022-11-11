@@ -1,5 +1,7 @@
 import {useState} from 'react'
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
   const [username,setUsername] = useState<string>('')
@@ -18,8 +20,20 @@ function Register() {
     "lastName": last_name,
   },
   )
+  
   localStorage.setItem('token', res.data['accessToken'])
+  if(localStorage.getItem('token')) {
+    setTimeout(() => window.location.reload(), 2000);
+    console.log('Registered');
+    
+    
   }
+  }
+  // refresh page
+  const notify = () => toast("Registered!");
+  
+
+
   
   return (
     <form className='input' onSubmit={(d:React.FormEvent<HTMLFormElement>) => postReq(d)}>
@@ -70,7 +84,19 @@ function Register() {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button type='submit' className="btn btn-primary">Login</button>
+          <button onClick={notify} type='submit' className="btn btn-primary">Login</button>
+          <ToastContainer
+position="top-left"
+autoClose={2000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
         </div>
       </div>
     </div>

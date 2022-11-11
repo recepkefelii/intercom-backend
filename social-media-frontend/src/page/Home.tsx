@@ -27,6 +27,19 @@ function Home() {
   return (
     <AuthContext.Provider value={user}>
         <Navbar/>
+        {
+          user ? (
+            <div>
+              <h1>Home</h1>
+              <h2>{user.username}</h2>
+            </div>
+          ) : (
+            <div>
+              <h1>Loading...</h1>
+            </div>
+          )
+
+        }
     </AuthContext.Provider>
     
   )
