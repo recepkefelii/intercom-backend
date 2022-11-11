@@ -8,8 +8,8 @@ function Register() {
     const [first_name,setFirstName] = useState<string>('')
     const [last_name,setLastName] = useState<string>('')
 
-  const postReq = async (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const postReq = async (q:React.FormEvent<HTMLFormElement>) => {
+    q.preventDefault()
     const res = await axios.post("http://localhost:8000/api/auth/register", {
     "username":username,
     "email": email,
@@ -18,9 +18,11 @@ function Register() {
     "lastName": last_name,
   },
   )
+  localStorage.setItem('token', res.data['accessToken'])
   }
+  
   return (
-    <form className='input' onSubmit={(e) => postReq(e)}>
+    <form className='input' onSubmit={(d:React.FormEvent<HTMLFormElement>) => postReq(d)}>
     <div className='grid h-screen place-items-center'>
         <div className="card flex-shrink-1 w-full max-w-sm shadow-2xl bg-base-100 ">
       <div className="card-body">
