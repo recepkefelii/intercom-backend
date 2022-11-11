@@ -24,17 +24,12 @@ function Register() {
   localStorage.setItem('token', res.data['accessToken'])
   if(localStorage.getItem('token')) {
     setTimeout(() => window.location.reload(), 2000);
-    console.log('Registered');
-    
-    
   }
   }
   // refresh page
   const notify = () => toast("Registered!");
   
 
-
-  
   return (
     <form className='input' onSubmit={(d:React.FormEvent<HTMLFormElement>) => postReq(d)}>
     <div className='grid h-screen place-items-center'>
@@ -84,7 +79,7 @@ function Register() {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button onClick={notify} type='submit' className="btn btn-primary">Login</button>
+          <button onClick={notify} type='submit' className="btn btn-primary">Register</button>
           <ToastContainer
 position="top-left"
 autoClose={2000}

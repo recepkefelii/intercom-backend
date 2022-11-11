@@ -6,6 +6,8 @@ export default function LoginPage() {
   if (localStorage.getItem('token')) {
     window.location.href = '/'
   }
+
+  
   return (
     <div>
         <Navbar/>

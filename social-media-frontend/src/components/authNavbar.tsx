@@ -1,31 +1,9 @@
-import {useEffect,useState} from 'react'
-import {useContext} from 'react'
-import AuthContext from '../context/authContext'
+import React from 'react'
 
-export default function Navbar() {
-  // create useeffect to get user context
-  const data = useContext<{user:string, setUser:Function}>(AuthContext)
-  console.log(data);
-  
-
+function authNavbar() {
   return (
-    <div>{
-    !data?.user ? <div>
-    <div className="navbar bg-slate-50">
-  <div className="flex-1">
-    <a className="btn btn-ghost normal-case text-xl">Social Media</a>
-  </div>
-  <div className="flex-none">
-    <ul className="menu menu-horizontal p-0">
-      <li><a>Discover</a></li>
-      <li><a>Trends</a></li>
-    </ul>
-  </div>
-  
-</div>
-
-</div>: 
-<div className="navbar bg-base-100">
+    <div>
+        <div className="navbar bg-base-100">
   <div className="flex-1">
     <a className="btn btn-ghost normal-case text-xl">Social Media</a>
   </div>
@@ -52,7 +30,8 @@ export default function Navbar() {
     </div>
   </div>
 </div>
-}
-</div>
+    </div>
   )
 }
+
+export default authNavbar

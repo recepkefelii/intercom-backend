@@ -1,16 +1,19 @@
 import { useEffect,useState} from 'react'
 
 import Navbar from '../components/navbar'
+import AuthNavbar from '../components/authNavbar'
 import AuthContext from '../context/authContext'
 function Home() {
-  const [user,setUser] = useState<any>({});
+  
 
   const token = localStorage.getItem('token')
+  const [user,setUser] = useState<any>('');
 
-  if (!token) {
-    window.location.href = '/login'
-  }
+   
     useEffect(() => {
+      if(!token){
+        return
+      }
       fetch('http://localhost:8000/api/profile', {
         method: 'GET',
         headers: {
@@ -22,24 +25,16 @@ function Home() {
         setUser(data)
       })
     }, [])
+
+    const data:any = {
+      user,
+      setUser
+    }
   
   
   return (
-    <AuthContext.Provider value={user}>
-        <Navbar/>
-        {
-          user ? (
-            <div>
-              <h1>Home</h1>
-              <h2>{user.username}</h2>
-            </div>
-          ) : (
-            <div>
-              <h1>Loading...</h1>
-            </div>
-          )
-
-        }
+    <AuthContext.Provider value={data}>
+     <Navbar/>
     </AuthContext.Provider>
     
   )
