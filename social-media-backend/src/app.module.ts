@@ -4,6 +4,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { FollowModule } from './follow/follow.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { FileModule } from './file/file.module';
+
 
 @Global()
 @Module({
@@ -11,10 +13,10 @@ import { PrismaModule } from './prisma/prisma.module';
   ConfigModule.forRoot({ isGlobal:true }),
   UserModule,
   FollowModule,
-  PrismaModule 
+  PrismaModule,
+  FileModule
   ],
   
-  controllers: [],
   providers: [ConfigService],
 })
 export class AppModule {}

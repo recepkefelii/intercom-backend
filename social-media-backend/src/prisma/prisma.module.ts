@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 
 @Global()
 @Module({
+  imports: [],
   providers: [PrismaService],
   exports: [PrismaService]
 })
