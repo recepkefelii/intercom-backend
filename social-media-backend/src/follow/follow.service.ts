@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { from, map, Observable, of, switchMap } from 'rxjs';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { IUserInfo } from './interface/index';
+import { IUserInfo } from '../common/interface/index';
 
 @Injectable()
 export class FollowService {

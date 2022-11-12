@@ -10,7 +10,7 @@ import {
 import { FollowService } from './follow.service';
 import { AuthGuard, GetUser } from 'src/common/index';
 import { from, Observable, of } from 'rxjs';
-import { IUserInfo } from './interface/index';
+import { IUserInfo } from '../common/interface/index';
 
 @UseGuards(AuthGuard)
 @Controller('')
