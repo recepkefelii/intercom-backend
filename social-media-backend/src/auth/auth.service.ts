@@ -32,6 +32,7 @@ export class AuthService {
             email: user.email,
             password: user.password,
             username: user.username,
+            ProfilPhotoPath: user.ProfilPhotoPath,
         };
         const accessToken = this.payload<ILoginPayload>(payload);
         return { accessToken };
@@ -51,6 +52,7 @@ export class AuthService {
                 id: user.id,
                 email: user.email,
                 username: user.username,
+                ProfilPhotoPath: user.ProfilPhotoPath,
             };
 
             // Create a token
