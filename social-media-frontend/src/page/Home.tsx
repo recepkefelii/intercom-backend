@@ -1,13 +1,12 @@
 import { useEffect,useState} from 'react'
 
 import Navbar from '../components/navbar'
-import AuthNavbar from '../components/authNavbar'
-import AuthContext from '../context/authContext'
+import AuthContext, {  IUserInfo } from '../context/authContext'
 function Home() {
   
 
   const token = localStorage.getItem('token')
-  const [user,setUser] = useState<any>('');
+  const [user,setUser] = useState();
 
    
     useEffect(() => {
@@ -26,11 +25,9 @@ function Home() {
       })
     }, [])
 
-    const data:any = {
-      user,
-      setUser
-    }
-  
+  const data = {
+    user
+  }
   
   return (
     <AuthContext.Provider value={data}>
