@@ -1,19 +1,18 @@
 import {createContext} from 'react';
 
-const AuthContext = createContext(null) as any
+export interface IUserInfo{
+    user?: {
+        id: number,
+        username : string,
+        email: string,
+        ProfilPhotoPath: string
+        lastName: string,
+        firstName: string,
 
-let data = {} as any
-
-
-const Provider = ({children}:any) => {
-
-    return (
-        <AuthContext.Provider value={""}>
-            {children}
-        </AuthContext.Provider>
-    )
+    } | null
 }
 
+const AuthContext = createContext<IUserInfo>({});
 
 export default AuthContext;
 
