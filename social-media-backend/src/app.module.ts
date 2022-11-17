@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { FollowModule } from './follow/follow.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { FileModule } from './file/file.module';
+import { PostModule } from './post/post.module';
 
 
 @Global()
@@ -14,7 +15,8 @@ import { FileModule } from './file/file.module';
   UserModule,
   FollowModule,
   PrismaModule,
-  FileModule
+  FileModule,
+  PostModule
   ],
   
   providers: [ConfigService],
