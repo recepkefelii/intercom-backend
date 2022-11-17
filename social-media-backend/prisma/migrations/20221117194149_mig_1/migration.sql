@@ -28,7 +28,6 @@ CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
     "title" TEXT,
     "content" TEXT,
-    "published" BOOLEAN DEFAULT false,
     "authorId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
