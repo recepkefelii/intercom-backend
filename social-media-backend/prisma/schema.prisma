@@ -25,7 +25,7 @@ model User {
   firstName String?
   lastName String?
   about String?
-  ProfilPhotoPath String @default("localhost:8000/images/default.png")
+  ProfilPhotoPath String @default("default.png")
 }
 
 model Follows {
