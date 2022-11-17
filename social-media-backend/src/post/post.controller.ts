@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard, GetUser } from 'src/common/index';
 import { IUserInfo } from 'src/common/interface';
 import { PostDto } from './dto/post.dto';
@@ -11,6 +11,11 @@ export class PostController {
     @Post('create')
     createPost(@Body() data:PostDto,@GetUser() user: IUserInfo) {
         return this.postService.createPost(user,data);
+    }
+
+    @Patch('update')
+    updatePost() {
+        
     }
     
 }
