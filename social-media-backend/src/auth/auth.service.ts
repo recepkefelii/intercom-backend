@@ -53,6 +53,8 @@ export class AuthService {
                 email: user.email,
                 username: user.username,
                 ProfilPhotoPath: user.ProfilPhotoPath,
+                lastName: user.lastName,
+                firstName: user.firstName,
             };
 
             // Create a token

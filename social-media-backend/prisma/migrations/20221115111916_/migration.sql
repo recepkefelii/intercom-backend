@@ -10,7 +10,7 @@ CREATE TABLE "User" (
     "firstName" TEXT,
     "lastName" TEXT,
     "about" TEXT,
-    "ProfilPhotoPath" TEXT NOT NULL DEFAULT 'localhost:8000/images/default.png',
+    "ProfilPhotoPath" TEXT NOT NULL DEFAULT 'default.png',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
