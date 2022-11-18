@@ -5,24 +5,8 @@ import { IUserInfo } from '../common/interface/index';
 
 @Injectable()
 export class FollowService {
-    constructor(private readonly prismaService: PrismaService) {} 
+    constructor(private readonly prismaService: PrismaService) {}
     followUser(user: IUserInfo, id: number) {
-
-            const userF = this.prismaService.follows.createMany({
-                data: [
-                    {
-                        followerId: id,
-                        followingId: user.id,
-                    },
-                ],
-            });
-            if (user.id === id) {
-                throw new HttpException('You cannot follow yourself', HttpStatus.BAD_REQUEST);
-            }
-
-    }
-
-    UserPromise(user: IUserInfo): Promise<any> {
         const hasFollow = this.prismaService.user.findUnique({
             where: {
                 id: user.id,
@@ -30,16 +14,51 @@ export class FollowService {
             select: {
                 following: {
                     select: {
-                        followingId: true,
+                        followerId: true,
                     },
                 },
             },
         });
-        return hasFollow;
-    }
-    
-    
 
+        const userF = this.prismaService.follows.createMany({
+            data: [
+                {
+                    followerId: id,
+                    followingId: user.id,
+                },
+            ],
+        });
+        if (user.id === id) {
+            throw new HttpException(
+                'You cannot follow yourself',
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        return from(hasFollow).pipe(
+            switchMap((data) => {
+                const isFollowing = data.following.find(
+                    (follow) => follow.followerId === id,
+                    console.log(data.following)
+                    
+                );
+                if (isFollowing) {
+                    throw new HttpException(
+                        'You are already following this user',
+                        HttpStatus.BAD_REQUEST,
+                    );
+                }
+                return from(userF).pipe(
+                    switchMap((data) => {
+                        return of({
+                            message: 'follow request sent',
+                        });
+                    }),
+                );
+            }),
+        );
+
+        
+    }
 
     followers(user: IUserInfo) {
         const userFollowInfo = this.prismaService.user.findFirstOrThrow({
@@ -107,8 +126,7 @@ export class FollowService {
                 return of({
                     message: 'unfollow request sent',
                 });
-            }
-            ),
+            }),
         );
     }
 }
