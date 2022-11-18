@@ -116,10 +116,10 @@ let PostService = class PostService {
                 },
             },
         });
-        return userPosts;
         if (!userPosts) {
             return { error: 'User not found' };
         }
+        return userPosts;
     }
 };
 PostService = __decorate([

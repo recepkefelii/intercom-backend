@@ -12,20 +12,20 @@ export declare class PostController {
         error: string;
     };
     getAllPosts(): import(".prisma/client").PrismaPromise<{
+        id: number;
         title: string;
         content: string;
         author: {
-            id: number;
             username: string;
             ProfilPhotoPath: string;
+            id: number;
         };
-        id: number;
     }[]>;
     getUserPosts(username: string): import(".prisma/client").Prisma.Prisma__UserClient<{
         posts: {
+            id: number;
             title: string;
             content: string;
-            id: number;
         }[];
     }, never> | {
         error: string;
