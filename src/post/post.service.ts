@@ -119,10 +119,11 @@ export class PostService {
             },
         });
         // return user posts
-        return userPosts;
         if(!userPosts) {
             return { error: 'User not found' };
     }
+        return userPosts;
     }
+    
     
 }
