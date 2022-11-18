@@ -18,10 +18,16 @@ export declare class PostController {
             id: number;
             username: string;
             ProfilPhotoPath: string;
-            followers: import(".prisma/client").Follows[];
-            following: import(".prisma/client").Follows[];
         };
         id: number;
     }[]>;
-    getUserPosts(id: number): any;
+    getUserPosts(username: string): import(".prisma/client").Prisma.Prisma__UserClient<{
+        posts: {
+            title: string;
+            content: string;
+            id: number;
+        }[];
+    }, never> | {
+        error: string;
+    };
 }

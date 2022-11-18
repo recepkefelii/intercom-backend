@@ -95,8 +95,6 @@ export class PostService {
                         id: true,
                         username: true,
                         ProfilPhotoPath: true,
-                        followers: true,
-                        following: true,
                     },
                 }
             },
@@ -105,4 +103,26 @@ export class PostService {
         return allPosts;
     }
 
+    getUserPosts(username:string) {
+        const userPosts = this.prismaService.user.findFirst({
+            where: {
+                username: username,
+            },
+            select: {
+                posts: {
+                    select: {
+                        id: true,
+                        title: true,
+                        content: true,
+                    },
+                },
+            },
+        });
+        // return user posts
+        return userPosts;
+        if(!userPosts) {
+            return { error: 'User not found' };
+    }
+    }
+    
 }

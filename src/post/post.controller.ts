@@ -28,9 +28,9 @@ export class PostController {
         return this.postService.getAllPosts();
     }
 
-    @Get('user/:id')
-    getUserPosts(@Param('id') id:number) {
-        return this.postService.getUserPosts(id);
+    @Get('user/:username')
+    getUserPosts(@Param('username') username:string) {
+        return this.postService.getUserPosts(username);
     }
 
 }
