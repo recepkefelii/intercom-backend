@@ -5,25 +5,37 @@ import { IUserInfo } from '../common/interface/index';
 
 @Injectable()
 export class FollowService {
-    constructor(private readonly prismaService: PrismaService) {}
-    // create a follow request to follow a user 
+    constructor(private readonly prismaService: PrismaService) {} 
     followUser(user: IUserInfo, id: number) {
-        const userF = this.prismaService.follows.createMany({
-            data: [
-                {
-                    followerId: id,
-                    followingId: user.id,
-                },
-            ],
-        });
-        return from(userF).pipe(
-            switchMap((data) => {
-                return of({
-                    message: 'follow request sent',
-                });
+
+            const userF = this.prismaService.follows.createMany({
+                data: [
+                    {
+                        followerId: id,
+                        followingId: user.id,
+                    },
+                ],
+            });
+            if (user.id === id) {
+                throw new HttpException('You cannot follow yourself', HttpStatus.BAD_REQUEST);
             }
-            ),
-        );
+
+    }
+
+    UserPromise(user: IUserInfo): Promise<any> {
+        const hasFollow = this.prismaService.user.findUnique({
+            where: {
+                id: user.id,
+            },
+            select: {
+                following: {
+                    select: {
+                        followingId: true,
+                    },
+                },
+            },
+        });
+        return hasFollow;
     }
     
     
@@ -81,5 +93,22 @@ export class FollowService {
         });
 
         return userFollowingInfo;
+    }
+
+    unfollowUser(user: IUserInfo, id: number) {
+        const userUnfollow = this.prismaService.follows.deleteMany({
+            where: {
+                followerId: id,
+                followingId: user.id,
+            },
+        });
+        return from(userUnfollow).pipe(
+            switchMap((data) => {
+                return of({
+                    message: 'unfollow request sent',
+                });
+            }
+            ),
+        );
     }
 }
