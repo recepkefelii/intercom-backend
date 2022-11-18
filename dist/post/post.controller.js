@@ -33,8 +33,8 @@ let PostController = class PostController {
     getAllPosts() {
         return this.postService.getAllPosts();
     }
-    getUserPosts(id) {
-        return this.postService.getUserPosts(id);
+    getUserPosts(username) {
+        return this.postService.getUserPosts(username);
     }
 };
 __decorate([
@@ -69,10 +69,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "getAllPosts", null);
 __decorate([
-    (0, common_1.Get)('user/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('user/:username'),
+    __param(0, (0, common_1.Param)('username')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "getUserPosts", null);
 PostController = __decorate([

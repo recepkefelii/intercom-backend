@@ -18,9 +18,16 @@ export declare class PostService {
             id: number;
             username: string;
             ProfilPhotoPath: string;
-            followers: import(".prisma/client").Follows[];
-            following: import(".prisma/client").Follows[];
         };
         id: number;
     }[]>;
+    getUserPosts(username: string): import(".prisma/client").Prisma.Prisma__UserClient<{
+        posts: {
+            title: string;
+            content: string;
+            id: number;
+        }[];
+    }, never> | {
+        error: string;
+    };
 }
