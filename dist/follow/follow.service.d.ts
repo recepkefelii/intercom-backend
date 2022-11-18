@@ -10,26 +10,26 @@ export declare class FollowService {
     followers(user: IUserInfo): import(".prisma/client").Prisma.Prisma__UserClient<{
         followers: {
             following: {
-                id: number;
-                name: string;
                 username: string;
                 firstName: string;
                 lastName: string;
+                name: string;
                 about: string;
                 ProfilPhotoPath: string;
+                id: number;
             };
         }[];
     }, never>;
     following(user: IUserInfo): import(".prisma/client").Prisma.Prisma__UserClient<{
         following: {
             follower: {
-                id: number;
-                name: string;
                 username: string;
                 firstName: string;
                 lastName: string;
+                name: string;
                 about: string;
                 ProfilPhotoPath: string;
+                id: number;
             };
         }[];
     }, never>;
