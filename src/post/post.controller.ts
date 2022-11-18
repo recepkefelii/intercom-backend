@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard, GetUser } from 'src/common/index';
 import { IUserInfo } from 'src/common/interface';
 import { PostDto } from './dto/post.dto';
@@ -18,6 +18,20 @@ export class PostController {
         return this.postService.updatePost(id,data,user);
     }
 
+    @Delete('delete/:id')
+    deletePost(@Param('id') id:number,@GetUser() user: IUserInfo) {
+        return this.postService.deletePost(id,user);
     }
-    
+
+    @Get('all')
+    getAllPosts() {
+        return this.postService.getAllPosts();
+    }
+
+    @Get('user/:username')
+    getUserPosts(@Param('username') username:string) {
+        return this.postService.getUserPosts(username);
+    }
+
+}
 

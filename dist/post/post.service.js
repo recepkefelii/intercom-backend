@@ -55,6 +55,71 @@ let PostService = class PostService {
             });
             return updatedPost;
         }
+        return { error: 'You have no post with this id' };
+    }
+    deletePost(id, user) {
+        const userPosts = this.prismaService.user.findFirst({
+            where: {
+                id: user.id,
+            },
+            select: {
+                posts: {
+                    where: {
+                        id: id,
+                    },
+                    select: {
+                        id: true,
+                        title: true,
+                    },
+                },
+            },
+        });
+        if (userPosts) {
+            const deletedPost = this.prismaService.post.delete({
+                where: {
+                    id: id,
+                },
+            });
+            return deletedPost;
+        }
+        return { error: 'You have no post with this id' };
+    }
+    getAllPosts() {
+        const allPosts = this.prismaService.post.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                author: {
+                    select: {
+                        id: true,
+                        username: true,
+                        ProfilPhotoPath: true,
+                    },
+                }
+            },
+        });
+        return allPosts;
+    }
+    getUserPosts(username) {
+        const userPosts = this.prismaService.user.findFirst({
+            where: {
+                username: username,
+            },
+            select: {
+                posts: {
+                    select: {
+                        id: true,
+                        title: true,
+                        content: true,
+                    },
+                },
+            },
+        });
+        return userPosts;
+        if (!userPosts) {
+            return { error: 'User not found' };
+        }
     }
 };
 PostService = __decorate([
