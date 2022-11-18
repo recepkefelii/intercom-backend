@@ -19,7 +19,8 @@ export class FollowController {
 
     @Get('follow/:id')
     @UseGuards(AuthGuard)
-    followRequest(@Param('id') id: number, @GetUser() user: IUserInfo) {       
+    followRequest(@Param('id') id: number, @GetUser() user: IUserInfo) {     
+          
         return this.followService.followUser(user, id);
     }
 

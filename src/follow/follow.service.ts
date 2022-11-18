@@ -7,7 +7,7 @@ import { IUserInfo } from '../common/interface/index';
 export class FollowService {
     constructor(private readonly prismaService: PrismaService) {}
     followUser(user: IUserInfo, id: number) {
-        const hasFollow = this.prismaService.user.findUnique({
+        const hasFollow = this.prismaService.user.findFirst({
             where: {
                 id: user.id,
             },
@@ -20,7 +20,7 @@ export class FollowService {
             },
         });
 
-        const userF = this.prismaService.follows.createMany({
+        const followRequest = this.prismaService.follows.createMany({
             data: [
                 {
                     followerId: id,
@@ -38,7 +38,6 @@ export class FollowService {
             switchMap((data) => {
                 const isFollowing = data.following.find(
                     (follow) => follow.followerId === id,
-                    console.log(data.following)
                     
                 );
                 if (isFollowing) {
@@ -47,7 +46,7 @@ export class FollowService {
                         HttpStatus.BAD_REQUEST,
                     );
                 }
-                return from(userF).pipe(
+                return from(followRequest).pipe(
                     switchMap((data) => {
                         return of({
                             message: 'follow request sent',
@@ -95,7 +94,7 @@ export class FollowService {
             select: {
                 following: {
                     select: {
-                        follower: {
+                        following: {
                             select: {
                                 name: true,
                                 id: true,
@@ -115,17 +114,45 @@ export class FollowService {
     }
 
     unfollowUser(user: IUserInfo, id: number) {
+
+        const hasFollow = this.prismaService.user.findFirst({
+            where: {
+                id: user.id,
+            },
+            select: {
+                following: {
+                    select: {
+                        followerId: true,
+                    },
+                },
+            },
+        });
+
         const userUnfollow = this.prismaService.follows.deleteMany({
             where: {
                 followerId: id,
                 followingId: user.id,
             },
         });
-        return from(userUnfollow).pipe(
+
+        return from(hasFollow).pipe(
             switchMap((data) => {
-                return of({
-                    message: 'unfollow request sent',
-                });
+                const isFollowing = data.following.find(
+                    (follow) => follow.followerId === id,
+                );
+                if (!isFollowing) {
+                    throw new HttpException(
+                        'You are not following this user',
+                        HttpStatus.BAD_REQUEST,
+                    );
+                }
+                return from(userUnfollow).pipe(
+                    switchMap((data) => {
+                        return of({
+                            message: 'unfollowed',
+                        });
+                    }),
+                );
             }),
         );
     }

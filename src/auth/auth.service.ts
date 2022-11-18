@@ -30,7 +30,6 @@ export class AuthService {
 
         const payload: ILoginPayload = {
             id: user.id,
-            
             email: user.email,
             password: user.password,
             username: user.username,
@@ -40,7 +39,7 @@ export class AuthService {
         return { accessToken };
     }
     async register(registerDto: RegisterAuthDto) {
-        // Hasef the password
+        // Hash the password
         registerDto.password = await hash(registerDto.password);
 
         try {
