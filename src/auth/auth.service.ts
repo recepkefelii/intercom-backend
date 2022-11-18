@@ -29,6 +29,8 @@ export class AuthService {
         }
 
         const payload: ILoginPayload = {
+            id: user.id,
+            
             email: user.email,
             password: user.password,
             username: user.username,

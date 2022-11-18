@@ -17,9 +17,9 @@ import { IUserInfo } from '../common/interface/index';
 export class FollowController {
     constructor(private readonly followService: FollowService) {}
 
-    @Get('follow/:id') // create a post request parameter
+    @Get('follow/:id')
     @UseGuards(AuthGuard)
-    followRequest(@Param('id') id: number, @GetUser() user: IUserInfo) {
+    followRequest(@Param('id') id: number, @GetUser() user: IUserInfo) {       
         return this.followService.followUser(user, id);
     }
 
@@ -33,5 +33,11 @@ export class FollowController {
     @UseGuards(AuthGuard)
     userFollowing(@GetUser() user: IUserInfo) {
         return this.followService.following(user);
+    }
+
+    @Get('unfollow/:id')
+    @UseGuards(AuthGuard)
+    unfollowUser(@Param('id') id: number, @GetUser() user: IUserInfo) {
+        return this.followService.unfollowUser(user, id);
     }
 }

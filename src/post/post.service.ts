@@ -72,9 +72,13 @@ export class PostService {
                     id: id,
                 },
             });
-            return deletedPost;
+            if(deletedPost) {
+                return { message: 'Post deleted successfully' };
+            }
+            else{
+                return { error: 'Post not found' };
+            }
         }
-        return { error: 'You have no post with this id' };
     }
 
     getAllPosts() {
