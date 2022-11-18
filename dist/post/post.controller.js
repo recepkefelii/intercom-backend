@@ -27,6 +27,15 @@ let PostController = class PostController {
     updatePost(id, data, user) {
         return this.postService.updatePost(id, data, user);
     }
+    deletePost(id, user) {
+        return this.postService.deletePost(id, user);
+    }
+    getAllPosts() {
+        return this.postService.getAllPosts();
+    }
+    getUserPosts(id) {
+        return this.postService.getUserPosts(id);
+    }
 };
 __decorate([
     (0, common_1.Post)('create'),
@@ -45,6 +54,27 @@ __decorate([
     __metadata("design:paramtypes", [Number, post_dto_1.PostDto, Object]),
     __metadata("design:returntype", void 0)
 ], PostController.prototype, "updatePost", null);
+__decorate([
+    (0, common_1.Delete)('delete/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, index_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "deletePost", null);
+__decorate([
+    (0, common_1.Get)('all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getAllPosts", null);
+__decorate([
+    (0, common_1.Get)('user/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getUserPosts", null);
 PostController = __decorate([
     (0, common_1.UseGuards)(index_1.AuthGuard),
     (0, common_1.Controller)('post'),
