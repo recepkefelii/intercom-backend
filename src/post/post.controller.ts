@@ -10,11 +10,15 @@ export class PostController {
 
     @Post('create')
     createPost(@Body() data:PostDto,@GetUser() user: IUserInfo) {
+        console.log(user);
+        
         return this.postService.createPost(user,data);
     }
 
     @Patch('update/:id')
     updatePost(@Param('id') id:number,@Body() data:PostDto,@GetUser() user: IUserInfo) {
+        console.log(user.id);
+        
         return this.postService.updatePost(id,data,user);
     }
 
