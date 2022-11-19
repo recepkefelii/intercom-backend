@@ -38,7 +38,6 @@ export class FollowService {
             switchMap((data) => {
                 const isFollowing = data.following.find(
                     (follow) => follow.followerId === id,
-                    
                 );
                 if (isFollowing) {
                     throw new HttpException(
@@ -55,12 +54,10 @@ export class FollowService {
                 );
             }),
         );
-
-        
     }
 
     followers(user: IUserInfo) {
-        const userFollowInfo = this.prismaService.user.findFirstOrThrow({
+        const userFollowInfo = this.prismaService.user.findFirst({
             where: {
                 id: user.id,
             },
@@ -69,19 +66,16 @@ export class FollowService {
                     select: {
                         following: {
                             select: {
-                                name: true,
                                 id: true,
                                 username: true,
-                                ProfilPhotoPath: true,
-                                about: true,
-                                firstName: true,
-                                lastName: true,
+                                email: true,
                             },
                         },
                     },
                 },
             },
         });
+
 
         return userFollowInfo;
     }
@@ -94,11 +88,11 @@ export class FollowService {
             select: {
                 following: {
                     select: {
-                        following: {
+                        follower: {
                             select: {
+                                username: true,
                                 name: true,
                                 id: true,
-                                username: true,
                                 ProfilPhotoPath: true,
                                 about: true,
                                 firstName: true,
@@ -114,7 +108,6 @@ export class FollowService {
     }
 
     unfollowUser(user: IUserInfo, id: number) {
-
         const hasFollow = this.prismaService.user.findFirst({
             where: {
                 id: user.id,
@@ -134,6 +127,12 @@ export class FollowService {
                 followingId: user.id,
             },
         });
+        if (user.id === id) {
+            throw new HttpException(
+                'You cannot unfollow yourself',
+                HttpStatus.BAD_REQUEST,
+            );
+        }
 
         return from(hasFollow).pipe(
             switchMap((data) => {

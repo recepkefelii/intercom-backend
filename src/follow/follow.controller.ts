@@ -26,7 +26,7 @@ export class FollowController {
 
     @Get('followers')
     @UseGuards(AuthGuard)
-    userFollowers(@Body() @GetUser() user: IUserInfo) {
+    userFollowers(@GetUser() user: IUserInfo) {
         return this.followService.followers(user);
     }
 
