@@ -19,13 +19,14 @@ export class FollowController {
 
     @Get('follow/:id')
     @UseGuards(AuthGuard)
-    followRequest(@Param('id') id: number, @GetUser() user: IUserInfo) {       
+    followRequest(@Param('id') id: number, @GetUser() user: IUserInfo) {     
+          
         return this.followService.followUser(user, id);
     }
 
     @Get('followers')
     @UseGuards(AuthGuard)
-    userFollowers(@Body() @GetUser() user: IUserInfo) {
+    userFollowers(@GetUser() user: IUserInfo) {
         return this.followService.followers(user);
     }
 

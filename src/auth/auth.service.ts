@@ -5,6 +5,7 @@ import { hash, verify } from 'argon2';
 import { ILoginPayload, IRegisterPaylaod } from './interface/index';
 import { sign } from 'jsonwebtoken';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class AuthService {
@@ -64,10 +65,11 @@ export class AuthService {
             // Return the token
             return { accessToken };
         } catch (error) {
-            if (error.code === '23505') {
-                throw new ForbiddenException('User email already exists');
+            if(error instanceof PrismaClientKnownRequestError){
+                if(error.code === 'P2002'){
+                    return {error: 'Email or username already exists'}
+                }
             }
-            throw new Error(error);
         }
     }
 
