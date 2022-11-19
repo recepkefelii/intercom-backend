@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import e from 'express';
 import { IUserInfo } from 'src/common/interface';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PostDto } from './dto/post.dto';
 
 @Injectable()
 export class PostService {
-    constructor(private readonly prismaService:PrismaService ) {}
+    constructor(private readonly prismaService: PrismaService) {}
 
-    createPost(user: IUserInfo,data:PostDto) {
+    createPost(user: IUserInfo, data: PostDto) {
         const userData = this.prismaService.post.create({
             data: {
                 content: data.content,
@@ -18,27 +19,29 @@ export class PostService {
         return userData;
     }
 
-    updatePost(id:number,data:PostDto,user: IUserInfo) {
-        const userPosts = this.prismaService.user.findFirst({
+    async updatePost(id: number, data: PostDto, user: IUserInfo) {
+        const userPosts = await this.prismaService.post.findFirst({
             where: {
-                id: user.id,
+                id: id,
             },
             select: {
-                posts: {
-                    where: {
-                        id: id,
-                    },
-                    select: {
-                        id: true,
-                        title: true,
-                    },
-                },
+                author: true,
+                title: true,
+                content: true,
             },
         });
-        if (userPosts) {
-            const updatedPost = this.prismaService.post.update({
+
+        if (userPosts.author.id !== user.id) {
+            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        }else{
+            const updatedPost = await this.prismaService.post.update({
                 where: {
                     id: id,
+                },
+                select: {
+                    author: true,
+                    title: true,
+                    content: true,
                 },
                 data: {
                     title: data.title,
@@ -46,10 +49,11 @@ export class PostService {
                 },
             });
             return updatedPost;
+        
         }
-        return { error: 'You have no post with this id' };
-}
-    deletePost(id:number,user: IUserInfo) {
+    }
+
+    deletePost(id: number, user: IUserInfo) {
         const userPosts = this.prismaService.user.findFirst({
             where: {
                 id: user.id,
@@ -72,10 +76,9 @@ export class PostService {
                     id: id,
                 },
             });
-            if(deletedPost) {
+            if (deletedPost) {
                 return { message: 'Post deleted successfully' };
-            }
-            else{
+            } else {
                 return { error: 'Post not found' };
             }
         }
@@ -93,13 +96,13 @@ export class PostService {
                         username: true,
                         ProfilPhotoPath: true,
                     },
-                }
+                },
             },
         });
         return allPosts;
     }
 
-    getUserPosts(username:string) {
+    getUserPosts(username: string) {
         const userPosts = this.prismaService.user.findFirst({
             where: {
                 username: username,
@@ -114,11 +117,9 @@ export class PostService {
                 },
             },
         });
-        if(!userPosts) {
+        if (!userPosts) {
             return { error: 'User not found' };
-    }
+        }
         return userPosts;
     }
-    
-    
 }
