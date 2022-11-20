@@ -53,34 +53,26 @@ export class PostService {
         }
     }
 
-    deletePost(id: number, user: IUserInfo) {
-        const userPosts = this.prismaService.user.findFirst({
+    async deletePost(id: number, user: IUserInfo) {
+        const getPost = await this.prismaService.post.findFirst({
             where: {
-                id: user.id,
+                id: id,
             },
             select: {
-                posts: {
-                    where: {
-                        id: id,
-                    },
-                    select: {
-                        id: true,
-                        title: true,
-                    },
-                },
+                author: true,
+                title: true,
+                content: true,
             },
         });
-        if (userPosts) {
+        if (getPost.author.id !== user.id) {
+            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        }else{
             const deletedPost = this.prismaService.post.delete({
                 where: {
-                    id: id,
-                },
-            });
-            if (deletedPost) {
-                return { message: 'Post deleted successfully' };
-            } else {
-                return { error: 'Post not found' };
-            }
+                    id: id
+                }
+            })
+            return deletedPost;
         }
     }
 
