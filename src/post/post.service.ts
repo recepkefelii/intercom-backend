@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import e from 'express';
 import { IUserInfo } from 'src/common/interface';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PostDto } from './dto/post.dto';
