@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { FollowService } from './follow.service';
 import { AuthGuard, GetUser } from 'src/common/index';
-import { from, Observable, of } from 'rxjs';
 import { IUserInfo } from '../common/interface/index';
 
 @UseGuards(AuthGuard)

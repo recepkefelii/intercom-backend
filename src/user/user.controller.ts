@@ -7,8 +7,6 @@ export class UserController {
 
   @Get()
   getMe(@GetUser() user) {
-    console.log(user);
-    
     return user;
   }
 }
