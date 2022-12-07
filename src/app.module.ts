@@ -6,6 +6,7 @@ import { FollowModule } from './follow/follow.module';
 import { FileModule } from './file/file.module';
 import { PostModule } from './post/post.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ServerController } from './server/server.controller';
 
 
 @Global()
@@ -20,5 +21,7 @@ import { PrismaModule } from './prisma/prisma.module';
   ],
   
   providers: [ConfigService],
+  
+  controllers: [ServerController],
 })
 export class AppModule {}
