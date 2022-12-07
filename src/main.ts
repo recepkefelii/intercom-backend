@@ -7,8 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule , { cors: true });
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe( { whitelist: true, forbidNonWhitelisted: true, transform: true, }));
-  app.setGlobalPrefix('v1', {
-    exclude: [{ path: '/', method: RequestMethod.GET }],
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: '', method: RequestMethod.GET }],
   });
   await app.listen(8000);
 }
