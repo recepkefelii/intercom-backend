@@ -22,34 +22,40 @@ export class RegisterService {
     }
     async register(body: UserdDto) {
         try {
-
-            // Hashed password
             const password = body.password
             const saltRounds = 10
             const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-            // Create Payload
-            const payload: IUserPayload = {
-                name: body.name,
-                email: body.email,
-            }
-
-            // Create User
-            await this.userModel.create({
+            const user = await this.userModel.create({
                 name: body.name,
                 email: body.email,
                 password: hashedPassword
             })
 
+            const payload: IUserPayload = {
+                name: body.name,
+                email: body.email,
+                id: user.id
+            }
+
             // this.sendMailRegisterUser(body)
             return this.jwtSign(payload)
-
         } catch (error) {
+            if (error.code === 11000) {
+                if (error.keyValue.email) {
+                    throw new HttpException("There is already an account using this email", HttpStatus.CONFLICT)
+                } else if (error.keyValue.name) {
+                    throw new HttpException("There is already an account using this name", HttpStatus.CONFLICT)
+                } else {
+                    throw new HttpException("The email and username should be unique", HttpStatus.CONFLICT)
+                }
+            }
             this.logger.error(error.message)
-            throw new HttpException("There is already an account using this email", HttpStatus.CONFLICT)
+            throw new HttpException("There was an error creating the user", HttpStatus.BAD_REQUEST)
         }
-
     }
+
+
     async jwtSign(payload: IUserPayload) {
         const secret = this.configServie.getOrThrow<string>("JWT_SECRET_KEY")
         const accsessToken = this.jwtService.sign(payload, { secret });

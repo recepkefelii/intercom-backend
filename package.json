@@ -37,6 +37,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "install": "^0.13.0",
+    "mongoose": "^7.0.1",
     "nodemailer-express-handlebars": "^6.1.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
