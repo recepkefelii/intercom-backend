@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { LikeModule } from './like/like.module';
 import { PostModule } from './post/post.module';
 import { UsersModule } from './users/users.module';
+import { FollowModule } from './follow/follow.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     PostModule,
     LikeModule,
+    FollowModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env"
@@ -23,7 +25,7 @@ import { UsersModule } from './users/users.module';
         uri: configService.getOrThrow<string>('MONGO_DB_URL'),
       }),
       inject: [ConfigService],
-    })
+    }),
   ],
   controllers: [],
 })
