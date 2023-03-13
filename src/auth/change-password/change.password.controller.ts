@@ -11,9 +11,7 @@ import { ChangePasswordService } from "./change.password.service";
 export class ChangePasswordContreller {
     constructor(private readonly changePasswordService: ChangePasswordService) { }
     @Post('change-password')
-    async changePassword(@Body() password: ChangePassWordDto, @CurrentUser() user: UserdDto) {
-        console.log(user);
-        
+    async changePassword(@Body() password: ChangePassWordDto, @CurrentUser() user: UserdDto) { 
         try {
             await this.changePasswordService.changePassword(password, user);
 
