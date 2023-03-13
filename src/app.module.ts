@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule, } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { LikeModule } from './like/like.module';
 import { PostModule } from './post/post.module';
 import { UsersModule } from './users/users.module';
 
@@ -11,6 +12,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     PostModule,
+    LikeModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env"

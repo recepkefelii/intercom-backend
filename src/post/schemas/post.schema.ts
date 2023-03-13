@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
 
-export type PostDocument = Document & { author: Types.ObjectId } & Post;
+export type PostDocument = Document & Post;
+
 @Schema()
 export class Post {
   @Prop({ required: true })
@@ -18,6 +19,9 @@ export class Post {
 
   @Prop({ default: Date.now })
   updatedDate: Date;
+
+  @Prop({ default: 0 })
+  likes: number;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
