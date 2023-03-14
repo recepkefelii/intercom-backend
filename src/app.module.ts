@@ -21,7 +21,7 @@ import { FollowModule } from './follow/follow.module';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         uri: configService.getOrThrow<string>('MONGO_DB_URL'),
       }),
       inject: [ConfigService],
