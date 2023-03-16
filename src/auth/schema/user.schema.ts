@@ -9,7 +9,16 @@ export class User {
   name: string;
 
   @Prop({ required: true, unique: true })
+  username: string
+
+  @Prop({ required: true, unique: true })
   email: string;
+
+  @Prop({ unique: true })
+  profil_photo_url: string
+
+  @Prop({ unique: true })
+  banner: string
 
   @Prop({ required: true })
   password: string;
@@ -26,10 +35,10 @@ export class User {
   @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'User' }] })
   followers: User[];
 
-  @Prop({default: 0})
+  @Prop({ default: 0 })
   followingCount: number
 
-  @Prop({default: 0})
+  @Prop({ default: 0 })
   followersCount: number
 }
 

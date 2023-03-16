@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { createTransport } from 'nodemailer';
+import { createTransport, SentMessageInfo } from 'nodemailer';
 import * as Mail from 'nodemailer/lib/mailer';
 import { ConfigService } from '@nestjs/config';
 import * as hbs from 'nodemailer-express-handlebars';
 
 @Injectable()
 export class MailService {
-    private nodemailerTransport: Mail;
+    private nodemailerTransport: Mail<SentMessageInfo>;
 
     constructor(private readonly configService: ConfigService) {
         this.nodemailerTransport = createTransport({
