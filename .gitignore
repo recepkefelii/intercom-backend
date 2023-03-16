@@ -46,6 +46,7 @@ yarn-error.log
 /quick-start
 /example_dist
 /example
+/upload
 
 # tests
 /test

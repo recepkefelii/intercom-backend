@@ -26,14 +26,18 @@ export class RegisterService {
             const saltRounds = 10
             const hashedPassword = await bcrypt.hash(password, saltRounds)
 
+            const randomNumber = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+
             const user = await this.userModel.create({
                 name: body.name,
+                username: body.name + randomNumber,
                 email: body.email,
                 password: hashedPassword
             })
 
             const payload: IUserPayload = {
                 name: body.name,
+                username: body.name + randomNumber,
                 email: body.email,
                 id: user.id
             }
