@@ -8,6 +8,7 @@ import { IUserPayload } from "../interface/user.interface";
 import { ConfigService } from "@nestjs/config";
 import { MailService } from "src/common/mail/mail.service";
 import { UserdDto } from "src/users/dto/user.dto";
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RegisterService {
@@ -26,11 +27,17 @@ export class RegisterService {
             const saltRounds = 10
             const hashedPassword = await bcrypt.hash(password, saltRounds)
 
+
+
             const randomNumber = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+            const InitphotoUrl = uuidv4()
+            const InitBanner = uuidv4()
 
             const user = await this.userModel.create({
                 name: body.name,
-                username: body.name + randomNumber,
+                profil_photo_url: InitphotoUrl.toString(),
+                banner_url: InitBanner.toString(),
+                username: randomNumber.toString(),
                 email: body.email,
                 password: hashedPassword
             })
@@ -46,16 +53,16 @@ export class RegisterService {
             return this.jwtSign(payload)
         } catch (error) {
             if (error.code === 11000) {
+                console.log(error);
+
+                let errorMessage = "The email and username should be unique"
                 if (error.keyValue.email) {
-                    throw new HttpException("There is already an account using this email", HttpStatus.CONFLICT)
-                } else if (error.keyValue.name) {
-                    throw new HttpException("There is already an account using this name", HttpStatus.CONFLICT)
-                } else {
-                    throw new HttpException("The email and username should be unique", HttpStatus.CONFLICT)
+                    errorMessage = "There is already an account using this email"
+                } else if (error.keyValue.username) {
+                    errorMessage = "There is already an account using this username"
                 }
+                throw new HttpException(errorMessage, HttpStatus.CONFLICT)
             }
-            this.logger.error(error.message)
-            throw new HttpException("There was an error creating the user", HttpStatus.BAD_REQUEST)
         }
     }
 

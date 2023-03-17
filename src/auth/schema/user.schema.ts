@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTypes, Types } from 'mongoose';
+import { Document, SchemaTypes } from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, })
   name: string;
 
   @Prop({ required: true, unique: true })
@@ -14,11 +14,11 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ unique: true })
-  profil_photo_url: string
+  @Prop({unique: true})
+  profil_photo_url: string;
 
-  @Prop({ unique: true })
-  banner: string
+  @Prop({unique: true})
+  banner_url: string;
 
   @Prop({ required: true })
   password: string;

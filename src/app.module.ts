@@ -7,6 +7,7 @@ import { LikeModule } from './like/like.module';
 import { PostModule } from './post/post.module';
 import { UsersModule } from './users/users.module';
 import { FollowModule } from './follow/follow.module';
+import { AwsS3Module } from './aws-s3/aws-s3.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { FollowModule } from './follow/follow.module';
         uri: configService.getOrThrow<string>("MONGO_DB_URL")
       }),
       inject: [ConfigService]
-    })
+    }),
+    AwsS3Module
   ],
   controllers: [],
 })

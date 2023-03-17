@@ -7,6 +7,8 @@ export class RegisterController {
     constructor(private readonly registerService: RegisterService) { }
     @Post('register')
     async register(@Body() body: UserdDto) {
+        console.log(body);
+
         return this.registerService.register(body)
     }
 }
