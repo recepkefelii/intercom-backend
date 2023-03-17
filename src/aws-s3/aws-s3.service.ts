@@ -34,7 +34,7 @@ export class AwsS3Service {
 
         const fileStorageInDB = ({
             key: uploadResult.input.Key,
-            url: "https://my-social-media-project.s3.eu-central-1.amazonaws.com/" + fileKeyName
+            url: this.configService.getOrThrow<string>("AWS_BUCKET_URL") + fileKeyName
         });
 
         return fileStorageInDB;
