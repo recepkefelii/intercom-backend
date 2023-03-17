@@ -20,6 +20,9 @@ export class Post {
   @Prop({ default: Date.now })
   updatedDate: Date;
 
+  @Prop()
+  photo_url: string | null
+
   @Prop({ default: 0 })
   likes: number;
 }

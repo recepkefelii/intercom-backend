@@ -11,24 +11,10 @@ import { PhotoUploadService } from "./photo.upload.service";
 @Controller('/upload')
 export class PhotoUploadController {
     constructor(private readonly photoUplaodService: PhotoUploadService) { }
+
     @Post('/profil-photo')
-    @UseInterceptors(
-        FileInterceptor('file', {
-            storage: diskStorage({
-                destination: './upload',
-                filename: (req, file, callback) => {
-                    const uniqueSuffix =
-                        Date.now() + '-' + Math.round(Math.random() * 1e9);
-                    const ext = extname(file.originalname);
-                    const filename = `${uniqueSuffix}${ext}`;
-                    callback(null, filename);
-                },
-            }),
-        }),
-    )
+    @UseInterceptors(FileInterceptor('file'))
     uploadProfilPhoto(@UploadedFile() file: Express.Multer.File, @CurrentUser() user: UserdDto) {
-        console.log(user);
-        
         return this.photoUplaodService.uploadProfilPhoto(file, user)
     }
 }
