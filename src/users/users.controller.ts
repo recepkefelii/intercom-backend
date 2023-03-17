@@ -12,7 +12,7 @@ export class UsersController {
     async userProfile(@CurrentUser() user: UserdDto) {
         return await this.userService.userProfile(user)
     }
-
+    
 
 
 }
