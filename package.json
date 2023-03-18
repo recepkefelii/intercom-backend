@@ -39,7 +39,7 @@
     "aws-sdk": "^2.1336.0",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
+    "class-validator": "^0.14.0",
     "install": "^0.13.0",
     "mongoose": "^6.0.2 ",
     "nodemailer-express-handlebars": "^6.1.0",
