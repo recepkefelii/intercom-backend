@@ -11,7 +11,7 @@ export class Post {
   @Prop({ required: true })
   content: string;
 
-  @Prop({ type: Types.ObjectId, ref: "User", required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   author: Types.ObjectId;
 
   @Prop({ default: Date.now })
@@ -25,6 +25,9 @@ export class Post {
 
   @Prop({ default: 0 })
   likes: number;
+
+  @Prop()
+  isLiked: boolean
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
