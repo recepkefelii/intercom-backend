@@ -7,6 +7,7 @@ import { User, UserDocument } from "../schema/user.schema";
 import * as bcrypt from 'bcrypt';
 import { UserdDto } from "src/users/dto/user.dto";
 import { ChangePassWordDto } from "../dto/change.password.dto";
+import { deflateRawSync } from "zlib";
 
 @Injectable()
 export class ChangePasswordService {
@@ -61,3 +62,4 @@ export class ChangePasswordService {
         }
     }
 }
+

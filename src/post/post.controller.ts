@@ -1,4 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { CurrentUser } from 'src/common/decorators/auth.decorator';
+import { AuthGuard } from 'src/common/guards/auth.guard';
+import { UserdDto } from 'src/users/dto/user.dto';
 import { PostService } from './post.service';
 
 @Controller('post')
@@ -10,7 +13,7 @@ export class PostController {
     }
 
     @Get(":id")
-    async getPostById(@Param('id') id: string){
+    async getPostById(@Param('id') id: string) {
         return this.postService.getPostById(id)
     }
 }

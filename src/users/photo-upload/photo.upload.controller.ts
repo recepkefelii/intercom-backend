@@ -1,7 +1,5 @@
 import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
-import { extname } from "path";
 import { CurrentUser } from "src/common/decorators/auth.decorator";
 import { AuthGuard } from "src/common/guards/auth.guard";
 import { UserdDto } from "../dto/user.dto";

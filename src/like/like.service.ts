@@ -30,6 +30,7 @@ export class LikeService {
     const newLike = new this.likeModel({ post: postId, user: user.id });
     await newLike.save();
     post.likes++;
+    post.isLiked = true
     await post.save();
 
     return post;
@@ -49,6 +50,7 @@ export class LikeService {
 
     const post = await this.postModel.findById(postId);
     post.likes -= 1;
+    post.isLiked = false
     await post.save();
 
     return post;
