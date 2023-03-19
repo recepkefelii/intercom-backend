@@ -1,23 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, SchemaTypes } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export type UserDocument = User & Document;
+export type UserDocument = Document & User;
 
 @Schema()
 export class User {
-  @Prop({ required: true, })
+  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true, unique: true })
-  username: string
+  username: string;
 
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({unique: true})
+  @Prop({ unique: true })
   profil_photo_url: string;
 
-  @Prop({unique: true})
+  @Prop({ unique: true })
   banner_url: string;
 
   @Prop({ required: true })
@@ -29,17 +29,23 @@ export class User {
   @Prop({ default: Date.now })
   updatedDate: Date;
 
-  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'User' }] })
-  following: User[];
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
+  following: Types.ObjectId[];
 
-  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'User' }] })
-  followers: User[];
-
-  @Prop({ default: 0 })
-  followingCount: number
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
+  followers: Types.ObjectId[];
 
   @Prop({ default: 0 })
-  followersCount: number
+  followingCount: number;
+
+  @Prop({ default: 0 })
+  followersCount: number;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Post' }] })
+  posts: Types.ObjectId[];
+
+  @Prop({ default: 0 })
+  postsCount: number
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
