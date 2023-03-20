@@ -7,6 +7,7 @@ import { PostModule } from './post/post.module';
 import { UsersModule } from './users/users.module';
 import { FollowModule } from './follow/follow.module';
 import { AwsS3Module } from './aws-s3/aws-s3.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AwsS3Module } from './aws-s3/aws-s3.module';
     PostModule,
     LikeModule,
     FollowModule,
+    CommentModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env"

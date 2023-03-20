@@ -53,7 +53,6 @@ export class RegisterService {
             return this.jwtSign(payload)
         } catch (error) {
             if (error.code === 11000) {
-                console.log(error);
 
                 let errorMessage = "The email and username should be unique"
                 if (error.keyValue.email) {

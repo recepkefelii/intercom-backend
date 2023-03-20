@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Post } from '../../post/schemas/post.schema';
+import { Like } from '../../like/schemas/like.schema';
 
 export type UserDocument = Document & User;
 
@@ -45,7 +47,10 @@ export class User {
   posts: Types.ObjectId[];
 
   @Prop({ default: 0 })
-  postsCount: number
+  postsCount: number;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Like' }] })
+  likedPosts: Like[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
