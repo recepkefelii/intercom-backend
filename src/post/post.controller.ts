@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorators/auth.decorator';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { UserdDto } from 'src/users/dto/user.dto';
@@ -15,5 +15,20 @@ export class PostController {
     @Get(":id")
     async getPostById(@Param('id') id: string) {
         return this.postService.getPostById(id)
+    }
+
+    @Get()
+    @UseGuards(AuthGuard)
+    async deneme(@CurrentUser() user:UserdDto){
+        return this.postService.getPosts(user)
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard)
+    async deletePost(
+      @Param('id') id: number,
+      @CurrentUser() user: UserdDto,
+    ) {
+      return this.postService.deletePost(id, user.id);
     }
 }
