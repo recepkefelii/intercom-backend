@@ -26,8 +26,12 @@ export class Post {
   @Prop({ default: 0 })
   likes: number;
 
-  @Prop()
+  @Prop({default: false})
   isLiked: boolean
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Comment' }] })
+  comments: Types.ObjectId[];
+
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
