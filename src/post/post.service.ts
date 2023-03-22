@@ -16,11 +16,16 @@ export class PostService {
 
     async getAllPost(): Promise<Post[]> {
         try {
-            return await this.postModel.find().populate("comments")
+            const posts = await this.postModel.find().populate("comments");
+            for (const post of posts) {
+                post.isLiked = false;
+            }
+            return posts;
         } catch (error) {
-            throw new BadRequestException("cannot list posts")
+            throw new BadRequestException("Cannot list posts");
         }
     }
+    
 
     async getPostById(id: string): Promise<Post> {
         try {
@@ -31,11 +36,10 @@ export class PostService {
     }
 
     async getPosts(user: UserdDto): Promise<Post[]> {
-        const posts = await this.postModel.find().populate("comments")
-        console.log(posts);
+        const posts = await this.postModel.find().populate("comments");
 
         const likedPosts = await this.likeModel.find({ user: user.id }).exec();
-
+        
         return posts.map((post) => {
             const isLiked = likedPosts.some(
                 (like) => like.post.toString() === post._id.toString(),

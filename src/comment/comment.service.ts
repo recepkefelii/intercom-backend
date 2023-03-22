@@ -17,9 +17,6 @@ export class CommentService {
 
     async createComment(commentDto: CommentDto, user: UserdDto) {
         const post = await this.postModel.findById(commentDto.id).exec();
-        console.log(post.id);
-        
-        
         
         if (!post) {
             throw new NotFoundException('Post not found');
