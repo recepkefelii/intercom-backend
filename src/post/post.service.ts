@@ -19,7 +19,13 @@ export class PostService {
             const posts = await this.postModel.find().populate({
                 path: "author",
                 select: "name email profil_photo_url _id username"
-              }).populate("comments");
+              }).populate({
+                path: "comments",
+                populate: {
+                    path: "author",
+                    select: "name email profil_photo_url _id username"
+                }
+              });
               
             for (const post of posts) {
                 post.isLiked = false;
@@ -34,14 +40,31 @@ export class PostService {
 
     async getPostById(id: string): Promise<Post> {
         try {
-            return await this.postModel.findById(id)
+            const post =  await this.postModel.findById(id).populate({
+                path: "author",
+                select: "name email profil_photo_url _id username"
+                }).populate({
+                    path: "comments",
+                    populate: {
+                        path: "author",
+                        select: "name email profil_photo_url _id username"
+                    }
+                });
+                if (!post) {
+                    throw new HttpException(`a post with this ${id} was not found`, HttpStatus.NOT_FOUND,)
+                }
+                return post
         } catch (error) {
-            throw new HttpException(`a post with this ${id} was not found`, HttpStatus.NOT_FOUND,)
+            throw new BadRequestException("Cannot list posts");
         }
     }
 
-    async getPosts(user: UserdDto): Promise<Post[]> {
-        const posts = await this.postModel.find().populate("comments");
+    async getWithAuthPost(user: UserdDto): Promise<Post[]> {
+        const posts = await this.postModel.find().populate({
+            path: "author",
+            select: "name email profil_photo_url _id username"
+            }).populate("comments");
+            
 
         const likedPosts = await this.likeModel.find({ user: user.id }).exec();
         
@@ -64,11 +87,14 @@ export class PostService {
         }
 
         try {
-            await this.postModel.deleteOne({ id: postId }).exec();
-            await this.commentModel.deleteMany({ post: postId }).exec();
-            await this.likeModel.deleteMany({ post: postId }).exec();
+            await this.postModel.deleteOne({ _id: post._id }).exec();
+            await this.likeModel.deleteMany({ post: post._id }).exec();
+            await this.commentModel.deleteMany({ post: post._id }).exec();
         } catch (error) {
             throw new HttpException('Could not delete post.', HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }
+
+// whats is the mongoose exec() method?
+// https://mongoosejs.com/docs/api.html#query_Query-exec

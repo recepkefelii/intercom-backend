@@ -20,7 +20,7 @@ export class PostController {
     @Get()
     @UseGuards(AuthGuard)
     async deneme(@CurrentUser() user:UserdDto){
-        return this.postService.getPosts(user)
+        return this.postService.getWithAuthPost(user)
     }
 
     @Delete(':id')
