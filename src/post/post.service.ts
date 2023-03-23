@@ -16,10 +16,15 @@ export class PostService {
 
     async getAllPost(): Promise<Post[]> {
         try {
-            const posts = await this.postModel.find().populate("comments");
+            const posts = await this.postModel.find().populate({
+                path: "author",
+                select: "name email profil_photo_url _id username"
+              }).populate("comments");
+              
             for (const post of posts) {
                 post.isLiked = false;
             }
+
             return posts;
         } catch (error) {
             throw new BadRequestException("Cannot list posts");
