@@ -79,22 +79,17 @@ export class PostService {
             };
         });
     }
-    async deletePost(postId: number, userId: string): Promise<void> {
-        const post = await this.postModel.findOne({ id: postId, user: userId }).exec();
-
+    // delete post by id with relation
+    async deletePost(id: string, userId: string) {
+        const post = await (await this.postModel.findById(id)).populate('author')
         if (!post) {
-            throw new NotFoundException('Could not find post.');
+            throw new NotFoundException('Post not found');
         }
-
-        try {
-            await this.postModel.deleteOne({ _id: post._id }).exec();
-            await this.likeModel.deleteMany({ post: post._id }).exec();
-            await this.commentModel.deleteMany({ post: post._id }).exec();
-        } catch (error) {
-            throw new HttpException('Could not delete post.', HttpStatus.NOT_ACCEPTABLE);
+        if (post.author._id.toString() !== userId) {
+            throw new HttpException("You don't have permission to delete this post", HttpStatus.UNAUTHORIZED)
         }
-    }
-}
-
-// whats is the mongoose exec() method?
-// https://mongoosejs.com/docs/api.html#query_Query-exec
+        await this.postModel.deleteOne({ _id: id });
+        await this.likeModel.deleteMany({ post: id });
+        await this.commentModel.deleteMany({ post: id });
+        return { message: 'Post deleted successfully' };
+    }}

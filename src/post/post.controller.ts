@@ -26,9 +26,11 @@ export class PostController {
     @Delete(':id')
     @UseGuards(AuthGuard)
     async deletePost(
-      @Param('id') id: number,
+      @Param('id') id: string,
       @CurrentUser() user: UserdDto,
     ) {
+      console.log("user", user);
+      
       return this.postService.deletePost(id, user.id);
     }
 }

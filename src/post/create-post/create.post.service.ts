@@ -27,13 +27,21 @@ export class CreatePostService {
             content: post.content,
             title: post.title,
             author: author.id,
-            photo_url: photo_url
-        });
+            photo_url: photo_url,
+            author_name: author.name,
+        }
+        )
+
         const user = await this.userModel.findById(author.id);
         user.postsCount++
         user.posts.push(createPost._id);
         await user.save();
-        return createPost;
+        
+        const postWithAuthor = await this.postModel.findById(createPost._id).populate({
+            path: "author",
+            select: "name email profil_photo_url _id username"
+        })
+        return postWithAuthor;
     }
 
 }

@@ -13,7 +13,17 @@ export class LikeService {
   ) { }
 
   async likePost(postId: string, user: UserdDto): Promise<Post> {
-    const post = await this.postModel.findById(postId);
+    const post = await this.postModel.findById(postId).populate({
+      path: "author",
+      select: "name email profil_photo_url _id username"
+    }).populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "name email profil_photo_url _id username"
+      }
+    })
+    
     if (!post) {
       throw new NotFoundException(`Post with id ${postId} not found`);
     }
@@ -37,7 +47,23 @@ export class LikeService {
   }
 
   async unlikePost(userId: string, postId: string): Promise<Post> {
-    const like = await this.likeModel.findOne({ user: userId, post: postId });
+
+    const post = await this.postModel.findById(postId).populate({
+      path: "author",
+      select: "name email profil_photo_url _id username"
+    }).populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "name email profil_photo_url _id username"
+      }
+    })
+
+    if (!post) {
+      throw new HttpException(`a post with this ${postId} was not found`, HttpStatus.NOT_FOUND,)
+    };
+
+    const like = await this.likeModel.findOne({ user: userId, post: postId })
     if (!like) {
       throw new HttpException(`post not liked`, HttpStatus.BAD_REQUEST,
         {
@@ -45,15 +71,13 @@ export class LikeService {
         }
       );
     }
-
     await like.deleteOne();
-
-    const post = await this.postModel.findById(postId);
+    
     post.likes -= 1;
     post.isLiked = false
     await post.save();
 
     return post;
   }
-  
+
 }
